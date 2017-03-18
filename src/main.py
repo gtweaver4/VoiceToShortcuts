@@ -6,11 +6,14 @@
 import recognize
 from Tkinter import *
 import sys
+import os
+import shutil
+import glob
 
 #creating main window
 root = Tk()
 root.title('Select preferences')
-root.geometry('400x500')
+root.geometry('600x600')
 current_profile = StringVar("")
 current_profile.set("Profile: ")
 
@@ -22,7 +25,7 @@ def start():
 #for the main window to be able to display them
 #returns an array of profiles
 def read_in_profiles():
-	return ["x"]
+	return [0]
 
 #sets the current profile for the user
 def set_profile(name):
@@ -32,10 +35,53 @@ def set_profile(name):
 def save(name, voiceArr, buttonArr):
 	file_name = name + ".dat"
 	try:
+		if(name == ""):
+			raise FileNameError('blank file name')
 		f = open(file_name, "w+")
+		f.close()
 	except:
-		Label(create, text = "\nPlease enter a valid name.")
-	
+		Label(create, text = "\nPlease enter a valid name.").pack()
+
+	move_files()
+
+
+def move_files():
+	try:
+		source_folder = os.getcwd()
+		destination_folder = get_user_profile_dir()
+	except:
+		print("error finding source folder")
+
+	files = os.listdir(source_folder)
+	for f in files:
+		if(f.endswith(".dat")):
+			shutil.move(f, destination_folder)
+
+	raise_frame(home)
+		
+def get_user_profile_dir():
+	try:
+		source_folder = os.getcwd()
+		sf_split = source_folder.split("\\")
+		destination_folder = ""
+		for x in range(0, len(sf_split) - 1):
+			destination_folder = destination_folder + sf_split[x] + "\\"
+		destination_folder = destination_folder + "profiledat\\userdat\\"
+		return destination_folder
+	except:
+		print("error finding source folder")
+
+def get_default_profile_dir():
+	try:
+		source_folder = os.getcwd()
+		sf_split = source_folder.split("\\")
+		destination_folder = ""
+		for x in range(0, len(sf_split) - 1):
+			destination_folder = destination_folder + sf_split[x] + "\\"
+		destination_folder = destination_folder + "profiledat\\defaultdat\\"
+		return destination_folder
+	except:
+		print("error finding source folder")
 
 def add_entry(voice, button, voiceArr,buttonArr):
 	voiceArr.append(voice.get())
@@ -71,12 +117,12 @@ Button(home, text='Cancel', command=lambda:sys.exit()).pack()
 #######################
 #######################
 #EDIT PROFILES
-test = read_in_profiles()
+profile_list = read_in_profiles()
 Label(edit, text='Edit').pack()
 edit_profile_label = Label(edit, textvariable = current_profile)
 edit_profile_label.pack() #on seperate lines to allow the label to update
-for x in range(0, len(test)):
-	b = Button(edit, text = test[x], command = lambda:set_profile(b['text'])).pack()
+for x in range(0, len(profile_list)):
+	b = Button(edit, text = profile_list[x], command = lambda:set_profile(b['text'])).pack()
 Button(edit, text='Home', command=lambda:raise_frame(home)).pack()
 Button(edit, text='Cancel', command=lambda:sys.exit()).pack()
 
