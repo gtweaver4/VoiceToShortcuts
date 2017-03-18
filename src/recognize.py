@@ -65,10 +65,9 @@ def listen(file):
 		print(word)
 		print(activators)
 		print(buttons)
+		recognize(word, activators, buttons)
 	except:                           
 		print("Could not understand audio")
-
-	recognize(word, activators, buttons)
 
 
 #processes buttons and turns things like control into ^
