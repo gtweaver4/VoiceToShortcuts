@@ -18,7 +18,7 @@ current_profile.set("Profile: ")
 
 #this starts the program
 def start():
-	recognize.listen()
+	recognize.listen(get_default_profile_dir() + "defaultword.dat")
 
 #this reads in the current profiles of the users
 #for the main window to be able to display them
@@ -50,7 +50,7 @@ def save(name, voiceArr, buttonArr):
 		#attempt to create .dat file and write information to it
 		f = open(file_name, "w+")
 		for x in range(0, len(voiceArr)):
-			f.write("voiceactivator:" + voiceArr[x] + "\tbuttonqueued:" + buttonArr[x] + "\n")
+			f.write(voiceArr[x] + "&" + buttonArr[x] + "\n")
 
 	except:
 		Label(create, text = "\nPlease enter a valid name.").pack()

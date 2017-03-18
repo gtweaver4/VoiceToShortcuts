@@ -1,4 +1,4 @@
-voiceactivator:underline	buttonqueued:ctrl + u
-voiceactivator:bold	buttonqueued:ctrl + b
-voiceactivator:italic	buttonqueued:ctrl + i
-voiceactivator:save	buttonqueued:ctrl + s
+underline&ctrl + u
+bold&ctrl + b
+italic&ctrl + i
+save&ctrl + s

@@ -7,34 +7,46 @@
 import speech_recognition as sr
 import win32com.client
 
-def recognize(word):
-	activators = import_activators()
-	buttons = import_buttons()
+def recognize(word, activators, buttons):
 
 	for x in range(0, len(activators)):
 		if(activators[x] == word):
+			print("True")
+			print(activators[x][0])
+			print(buttons[x][0])
 			shell = win32com.client.Dispatch("WScript.Shell")
 			keypress = process_raw_button(buttons[x])
 			shell.SendKeys(keypress)
 
-def listen():
+def listen(file):
 	r = sr.Recognizer()
 	with sr.Microphone() as source:
 		audio = r.listen(source)
 
+	#try read in the profile
+	try:
+		f = open(file, "r")
+		activators = []
+		buttons = []
+		keyword = "&"
+		for line in f:
+			voice,keyword,button = line.partition(keyword)
+			activators.append(voice)
+			buttons.append(button)
+		f.close()
+	except:
+		print("could not find profile")
+
+	#try recognizing the word
 	try:
 		word = r.recognize_google(audio)
 		print(word)
+		print(activators)
+		print(buttons)
+		recognize(word, activators, buttons)
 	except:                           
 		print("Could not understand audio")
 
-	recognize(word)
-
-def import_activators():
-	return ["save","exit","underline"]
-
-def import_buttons():
-	return ["ctrl + s", "alt + f4", "ctrl + u"]
 
 #processes buttons and turns things like control into ^
 def process_raw_button(buttons):
