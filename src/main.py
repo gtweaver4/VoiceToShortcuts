@@ -16,7 +16,7 @@ root.geometry('600x600')
 current_profile = StringVar("")
 current_profile.set("Profile: ")
 
-#this starts the program
+#this starts the voice recognition
 def start():
 	if(is_in_default_dir()):
 		recognize.listen(get_default_profile_dir() + get_profile())
@@ -53,6 +53,7 @@ def read_in_profiles():
 def set_profile(name):
 	current_profile.set("Profile: " + str(name))
 
+#returns the current profile without the "Profile: " part
 def get_profile():
 	profile = current_profile.get()
 	keyword = ":"
@@ -205,7 +206,6 @@ Entry(createFrame2, textvariable = button).pack(side='left')
 Label(createFrame2, text = "\n\n").pack()
 createFrame2.pack()
 Button(create, text = "add",padx = 50, command = lambda:add_entry(voice, button, voiceArr,buttonArr)).pack()
-
 
 #frame for buttons
 buttonFrame = Frame(create)
