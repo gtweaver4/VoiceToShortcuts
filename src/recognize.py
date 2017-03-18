@@ -11,9 +11,7 @@ def recognize(word, activators, buttons):
 
 	for x in range(0, len(activators)):
 		if(activators[x] == word):
-			print("True")
-			print(activators[x][0])
-			print(buttons[x][0])
+			print("Word is Recognized")
 			shell = win32com.client.Dispatch("WScript.Shell")
 			keypress = process_raw_button(buttons[x])
 			shell.SendKeys(keypress)
