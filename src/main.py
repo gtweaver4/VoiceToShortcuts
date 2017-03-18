@@ -25,7 +25,16 @@ def start():
 #for the main window to be able to display them
 #returns an array of profiles
 def read_in_profiles():
-	return [0]
+	profiles = []
+	default_dir = get_default_profile_dir()
+	user_dir = get_user_profile_dir()
+	files = os.listdir(default_dir)
+	for f in files:
+		profiles.append(f)
+	files = os.listdir(user_dir)
+	for f in files:
+		profiles.append(f)
+	return profiles
 
 #sets the current profile for the user
 def set_profile(name):
@@ -34,8 +43,6 @@ def set_profile(name):
 #saves the profile the user creates into the userdat folder
 def save(name, voiceArr, buttonArr):
 	file_name = name + ".dat"
-	for x in voiceArr:
-		print(x)
 	try:
 		#if emptyname raise exception
 		if(name == ""):
@@ -135,8 +142,8 @@ profile_list = read_in_profiles()
 Label(edit, text='Edit').pack()
 edit_profile_label = Label(edit, textvariable = current_profile)
 edit_profile_label.pack() #on seperate lines to allow the label to update
-for x in range(0, len(profile_list)):
-	b = Button(edit, text = profile_list[x], command = lambda:set_profile(b['text'])).pack()
+for x in profile_list:
+	Button(edit, text = x, command = lambda:set_profile(x)).pack()
 Button(edit, text='Home', command=lambda:raise_frame(home)).pack()
 Button(edit, text='Cancel', command=lambda:sys.exit()).pack()
 
