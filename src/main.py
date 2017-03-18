@@ -29,8 +29,13 @@ def set_profile(name):
 	current_profile.set("Profile: " + name)
 
 #saves the profile the user creates
-def save():
-	i = 0
+def save(name, voiceArr, buttonArr):
+	file_name = name + ".dat"
+	try:
+		f = open(file_name, "w+")
+	except:
+		Label(create, text = "\nPlease enter a valid name.")
+	
 
 def add_entry(voice, button, voiceArr,buttonArr):
 	voiceArr.append(voice.get())
@@ -106,7 +111,7 @@ Button(create, text = "add", command = lambda:add_entry(voice, button, voiceArr,
 
 buttonFrame = Frame(create)
 Button(buttonFrame, text='Home', command=lambda:raise_frame(home)).pack(side='left')
-Button(buttonFrame, text='Save', command=lambda:save()).pack(side='left')
+Button(buttonFrame, text='Save', command=lambda:save(profile_name.get(), voiceArr, buttonArr)).pack(side='left')
 Button(buttonFrame, text='Cancel', command=lambda:sys.exit()).pack(side='left')
 buttonFrame.pack()
 
