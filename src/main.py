@@ -8,7 +8,6 @@ from Tkinter import *
 import sys
 import os
 import shutil
-import glob
 
 #creating main window
 root = Tk()
@@ -19,7 +18,7 @@ current_profile.set("Profile: ")
 
 #this starts the program
 def start():
-	recognize.recognize()
+	recognize.listen()
 
 #this reads in the current profiles of the users
 #for the main window to be able to display them
@@ -146,7 +145,6 @@ for x in profile_list:
 	Button(edit, text = x, command = lambda:set_profile(x)).pack()
 Button(edit, text='Home', command=lambda:raise_frame(home)).pack()
 Button(edit, text='Cancel', command=lambda:sys.exit()).pack()
-
 
 
 
