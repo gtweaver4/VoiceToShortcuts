@@ -13,5 +13,5 @@ def recognize():
 
 	try:
 		print("You said " + r.recognize_google(audio))    
-	except LookupError:                           
+	except:                           
 		print("Could not understand audio")

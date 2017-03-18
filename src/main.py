@@ -31,20 +31,29 @@ def read_in_profiles():
 def set_profile(name):
 	current_profile.set("Profile: " + name)
 
-#saves the profile the user creates
+#saves the profile the user creates into the userdat folder
 def save(name, voiceArr, buttonArr):
 	file_name = name + ".dat"
+	for x in voiceArr:
+		print(x)
 	try:
+		#if emptyname raise exception
 		if(name == ""):
 			raise FileNameError('blank file name')
+
+		#attempt to create .dat file and write information to it
 		f = open(file_name, "w+")
-		f.close()
+		for x in range(0, len(voiceArr)):
+			f.write("voiceactivator:" + voiceArr[x] + "\tbuttonqueued:" + buttonArr[x] + "\n")
+
 	except:
 		Label(create, text = "\nPlease enter a valid name.").pack()
 
+	f.close()
+	#moves files after saving the files
 	move_files()
 
-
+#moves .dat files from the src folder to the userdat dir
 def move_files():
 	try:
 		source_folder = os.getcwd()
@@ -59,6 +68,7 @@ def move_files():
 
 	raise_frame(home)
 		
+#gets the user profile dir as string
 def get_user_profile_dir():
 	try:
 		source_folder = os.getcwd()
@@ -71,6 +81,7 @@ def get_user_profile_dir():
 	except:
 		print("error finding source folder")
 
+#gets the default profile dir as a string
 def get_default_profile_dir():
 	try:
 		source_folder = os.getcwd()
@@ -83,6 +94,8 @@ def get_default_profile_dir():
 	except:
 		print("error finding source folder")
 
+#adds the voice and buttons to the array so they can be saved
+#also creates a label showing a label with the button and voice activation
 def add_entry(voice, button, voiceArr,buttonArr):
 	voiceArr.append(voice.get())
 	buttonArr.append(button.get())
@@ -92,6 +105,7 @@ def add_entry(voice, button, voiceArr,buttonArr):
 def raise_frame(frame):
     frame.tkraise()
 
+#setting default frames
 home = Frame(root)
 edit = Frame(root)
 create = Frame(root)
@@ -138,11 +152,13 @@ Label(create, text='Create Profile').pack()
 createFrame1 = Frame(create)
 Label(createFrame1, text = "Name of Profile: ").pack(side='left')
 
+#profile name frame
 profile_name = StringVar()
 profile_name_entry = Entry(createFrame1, textvariable = profile_name)
 profile_name_entry.pack(side = 'left')
 createFrame1.pack()
 
+#frame for the entry widgets
 createFrame2 = Frame(create)
 voice = StringVar()
 button = StringVar()
@@ -155,15 +171,13 @@ Entry(createFrame2, textvariable = button).pack(side='left')
 createFrame2.pack()
 Button(create, text = "add", command = lambda:add_entry(voice, button, voiceArr,buttonArr)).pack()
 
+#frame for buttons
 buttonFrame = Frame(create)
 Button(buttonFrame, text='Home', command=lambda:raise_frame(home)).pack(side='left')
 Button(buttonFrame, text='Save', command=lambda:save(profile_name.get(), voiceArr, buttonArr)).pack(side='left')
 Button(buttonFrame, text='Cancel', command=lambda:sys.exit()).pack(side='left')
 buttonFrame.pack()
 
+#setting default frame and starting mainloop
 raise_frame(home)
 root.mainloop()
-
-#start the tk window
-while(True):
-	root.mainloop()
