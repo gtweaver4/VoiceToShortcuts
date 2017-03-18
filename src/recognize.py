@@ -29,7 +29,7 @@ def listen(file):
 		activators = []
 		buttons = []
 		keyword = "&"
-		for line in f:
+		for line in f: #goes line by line and splits lines by keyword
 			voice,keyword,button = line.partition(keyword)
 			activators.append(voice)
 			buttons.append(button)

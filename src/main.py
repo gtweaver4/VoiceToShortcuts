@@ -37,7 +37,7 @@ def read_in_profiles():
 
 #sets the current profile for the user
 def set_profile(name):
-	current_profile.set("Profile: " + name)
+	current_profile.set("Profile: " + str(name))
 
 #saves the profile the user creates into the userdat folder
 def save(name, voiceArr, buttonArr):
@@ -127,7 +127,7 @@ for frame in (home, edit, create):
 #HOME SCREEEN
 home_profile_label = Label(home, textvariable = current_profile)
 home_profile_label.pack() #on seperate lines to allow the label to update
-Button(home, text='Edit Profiles', command=lambda:raise_frame(edit)).pack()
+Button(home, text='Select Profile', command=lambda:raise_frame(edit)).pack()
 Button(home, text='Create New Profile', command=lambda:raise_frame(create)).pack()
 Button(home, text='Start Voice Shortcuts', command=lambda:start()).pack()
 Button(home, text='Cancel', command=lambda:sys.exit()).pack()
@@ -138,11 +138,15 @@ Button(home, text='Cancel', command=lambda:sys.exit()).pack()
 #######################
 #EDIT PROFILES
 profile_list = read_in_profiles()
-Label(edit, text='Edit').pack()
+profile_list.sort()
+Label(edit, text='Select Profile').pack()
 edit_profile_label = Label(edit, textvariable = current_profile)
 edit_profile_label.pack() #on seperate lines to allow the label to update
-for x in profile_list:
-	Button(edit, text = x, command = lambda:set_profile(x)).pack()
+radio_group = IntVar()
+for x in range( 0, len(profile_list)):
+	Radiobutton(edit, text = profile_list[x], variable = radio_group, value = x).pack()
+
+Button(edit, text='Save', command=lambda:set_profile(profile_list[radio_group.get()])).pack()
 Button(edit, text='Home', command=lambda:raise_frame(home)).pack()
 Button(edit, text='Cancel', command=lambda:sys.exit()).pack()
 
